@@ -38,6 +38,7 @@
     "@fullcalendar/common": "^5.11.0",
     "@fullcalendar/core": "^5.11.0",
     "@fullcalendar/daygrid": "^5.11.0",
+    "@fullcalendar/interaction": "^5.11.0",
     "@sveltejs/adapter-static": "^1.0.0-next.29",
     "@sveltejs/kit": "next",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
