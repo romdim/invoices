@@ -11,9 +11,7 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		paths: {
-			base: dev ? '' : '/invoices'
-		},
+		prerender: { default: true },
 		vite: {
 			resolve: {
 				dedupe: ['@fullcalendar/common']
