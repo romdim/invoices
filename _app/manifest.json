@@ -1,53 +1,86 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-d70707a1.js",
+    "file": "start-b052ef6a.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_index-4e942f8c.js",
+      "_index-03720f99.js",
       "_preload-helper-e4860ae8.js"
     ],
     "dynamicImports": [
       ".svelte-kit/runtime/components/layout.svelte",
       ".svelte-kit/runtime/components/error.svelte",
-      "src/routes/index.svelte"
+      "_index-dd584514.js"
     ]
   },
   ".svelte-kit/runtime/components/layout.svelte": {
-    "file": "layout.svelte-f76f8669.js",
+    "file": "layout.svelte-4e1df2da.js",
     "src": ".svelte-kit/runtime/components/layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-4e942f8c.js"
+      "_index-03720f99.js"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
-    "file": "error.svelte-c6948a64.js",
+    "file": "error.svelte-1cc38fec.js",
     "src": ".svelte-kit/runtime/components/error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-4e942f8c.js"
+      "_index-03720f99.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-1bc8b5d6.js",
+    "file": "pages/index.svelte-7fc3698a.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
-    "isDynamicEntry": true,
     "imports": [
-      "_index-4e942f8c.js",
+      "_index-03720f99.js",
+      "_index-dd584514.js",
       "_preload-helper-e4860ae8.js"
-    ],
-    "css": [
-      "assets/pages/index.svelte-7424a3d7.css"
     ]
   },
-  "_index-4e942f8c.js": {
-    "file": "chunks/index-4e942f8c.js"
+  "_index-03720f99.js": {
+    "file": "chunks/index-03720f99.js"
   },
   "_preload-helper-e4860ae8.js": {
     "file": "chunks/preload-helper-e4860ae8.js"
+  },
+  "_index-dd584514.js": {
+    "file": "chunks/index-dd584514.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-03720f99.js",
+      "_preload-helper-e4860ae8.js"
+    ],
+    "dynamicImports": [
+      "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js",
+      "node_modules/.pnpm/dompurify@2.3.6/node_modules/dompurify/dist/purify.es.js",
+      "node_modules/.pnpm/canvg@3.0.10/node_modules/canvg/lib/index.es.js"
+    ],
+    "css": [
+      "assets/index-0f0d7c4f.css"
+    ]
+  },
+  "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js": {
+    "file": "chunks/html2canvas.esm-1e005950.js",
+    "src": "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js",
+    "isDynamicEntry": true
+  },
+  "node_modules/.pnpm/dompurify@2.3.6/node_modules/dompurify/dist/purify.es.js": {
+    "file": "chunks/purify.es-9f04a14a.js",
+    "src": "node_modules/.pnpm/dompurify@2.3.6/node_modules/dompurify/dist/purify.es.js",
+    "isDynamicEntry": true
+  },
+  "node_modules/.pnpm/canvg@3.0.10/node_modules/canvg/lib/index.es.js": {
+    "file": "chunks/index.es-70e6a11d.js",
+    "src": "node_modules/.pnpm/canvg@3.0.10/node_modules/canvg/lib/index.es.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-dd584514.js",
+      "_index-03720f99.js",
+      "_preload-helper-e4860ae8.js"
+    ]
   }
 }
