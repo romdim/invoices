@@ -2,52 +2,32 @@
   import FullCalendar, { type CalendarOptions, type EventInput } from 'svelte-fullcalendar';
   import daygridPlugin from '@fullcalendar/daygrid';
   import interactionPlugin from '@fullcalendar/interaction';
-  import Holidays, { type HolidaysTypes } from 'date-holidays';
-  const hd = new Holidays('NL');
 
-  import { jsPDF } from 'jspdf';
-  const doc = new jsPDF();
-  doc.text("Hello world!", 10, 10);
+  import type Company from '../types/company';
+  import type Payment from '../types/payment';
 
-  const daysOfWeek = [ ...Array(5).keys() ].map( i => i+1 );
+  import {
+    firstDayOfMonth,
+    nextMonth
+  } from '../lib/dateExtra';
+  import { holidayEvents, workEvents } from '../lib/events';
+  import pdf from '../lib/pdf';
 
-  const isWeekday = (dayOfWeek: Number): boolean => {
-    return dayOfWeek !== 0 && dayOfWeek !== 6;
-  }
-  const firstDayNextMonth = (date: Date): Date => {
-    let newDate = new Date(date);
-    newDate.setMonth(newDate.getMonth()+1);
-    newDate.setDate(1);
-    return newDate;
+  import DataFile from '../components/data.svelte';
+  let dataFile;
+  let data: {
+    billing: Company;
+    vendor: Company;
+    payment: Payment;
   };
+  let billing: Company;
+  let vendor: Company;
+  let payment: Payment;
+  $: if (data) ({ billing, vendor, payment } = data);
 
-  const daysInMonth = (date: Date): Number => (new Date(date.getFullYear(), date.getMonth()+1, 0)).getDate();
-  const workEvents = (firstDay: Date): EventInput[] => [ ...Array(daysInMonth(firstDay)).keys() ]
-        .map((i: number): Date => {const date = new Date(firstDay); return new Date(date.setDate(date.getDate()+i))})
-        .filter((date: Date): boolean => isWeekday(date.getDay()))
-        .filter((date: Date): boolean => !hd.isHoliday(date) ||
-                                         ((<HolidaysTypes.Holiday[]>hd.isHoliday(date))[0].type !== 'public' &&
-                                         (<HolidaysTypes.Holiday[]>hd.isHoliday(date))[0].type !== 'bank'))
-        .map((date: Date) => ({
-          id: date.getDate().toString(),
-          title: 'work',
-          start: date,
-          allDay: true
-        }));
-
-  const holidayEvents = (firstDay: Date): EventInput[] => hd.getHolidays(firstDay.getFullYear())
-    .map((holiday: HolidaysTypes.Holiday) => ({
-      id: 'holiday',
-      title: `${holiday.name}\n${holiday.type}`,
-      start: holiday.start,
-      end: holiday.end,
-      allDay: true,
-      backgroundColor: 'white',
-      textColor: '#3788d8'
-    }));
+  const daysOfWeek: number[] = [ ...Array(5).keys() ].map( i => i+1 );
 
   let calendarRef: FullCalendar;
-
   let options: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [ daygridPlugin, interactionPlugin ],
@@ -59,20 +39,33 @@
     height: "100vh",
     headerToolbar: {
       left: 'title',
-      center: 'printInvoice',
+      center: 'data printInvoice',
       right: 'today prev,next'
     },
     customButtons: {
+      data: {
+        text: 'Data',
+        click: () => {
+          dataFile.click();
+        }
+      },
       printInvoice: {
         text: 'Invoice',
-        click: () => doc.save("a4.pdf")
+        click: () => {
+          const calendarApi = calendarRef.getAPI();
+          const days = calendarApi.getEvents().filter(event => event._def.title === 'work').length;
+          
+          if (data) {
+            payment.date = calendarApi.view.currentStart;
+            pdf(billing, vendor, payment, days);
+          }
+        }
       }
     },
 
     events: (info): PromiseLike<EventInput[]> => {
       // info.start contains the first day that is in view which is most likely from the previous month
-      const eventDay = info.start.getDate() === 1 ? info.start : firstDayNextMonth(info.start);
-
+      const eventDay = info.start.getDate() === 1 ? info.start : nextMonth(firstDayOfMonth(info.start));
       return new Promise((resolve) => resolve(workEvents(eventDay).concat(holidayEvents(eventDay))));
     },
     eventContent: function(arg) {
@@ -101,3 +94,4 @@
 </script>
 
 <FullCalendar bind:this={calendarRef} {options} />
+<DataFile bind:this={dataFile} bind:data={data} />
